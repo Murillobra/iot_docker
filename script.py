@@ -4,11 +4,11 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 # Passo 1: Ler dados do CSV
-file_path = 'path_to_your_csv_file.csv'  # Substitua pelo caminho real do arquivo
+file_path = 'kaggle.csv'  # Substitua pelo caminho real do arquivo
 data = pd.read_csv(file_path)
 
 # Passo 2: Conectar ao PostgreSQL usando SQLAlchemy
-engine = create_engine('postgresql://username:password@localhost:5432/your_database')  # Substitua pelas credenciais reais
+engine = create_engine('postgresql://mubraga:010997@localhost:5432/database')  # Substitua pelas credenciais reais
 
 # Passo 3: Processar e carregar dados no PostgreSQL
 data.to_sql('temperature_readings', engine, if_exists='replace', index=False)
