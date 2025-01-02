@@ -1,8 +1,8 @@
 # iot_docker
 
-Pipeline de Dados IoT com Docker e Streamlit
+## Pipeline de Dados IoT com Docker e Streamlit
 
-Visão Geral
+### Visão Geral
 
 Este projeto implementa um pipeline de dados para processar leituras de temperatura de dispositivos IoT, armazená-las em um banco de dados PostgreSQL e visualizá-las usando um dashboard Streamlit. Todo o sistema utiliza Docker para containerização e Python para processamento de dados.
 
@@ -16,14 +16,14 @@ Visualização: Exibe insights usando gráficos interativos em um dashboard Stre
 
 Pré-requisitos
 
-Git
+### Git
 
 Instale o Git e configure-o com seu nome de usuário e email.
 
 git config --global user.name "Seu Nome"
 git config --global user.email "seu.email@exemplo.com"
 
-Docker
+### Docker
 
 Instale o Docker e garanta que ele esteja em execução.
 
@@ -31,7 +31,7 @@ Crie um container PostgreSQL:
 
 docker run --name postgres-iot -e POSTGRES_PASSWORD=sua_senha -p 5432:5432 -d postgres
 
-Python
+### Python
 
 Instale o Python (3.8 ou mais recente).
 
@@ -39,7 +39,7 @@ Crie um ambiente virtual e instale as bibliotecas necessárias:
 
 pip install pandas psycopg2-binary sqlalchemy streamlit plotly
 
-Instalação
+## Instalação
 
 Clone o repositório:
 
@@ -48,7 +48,7 @@ cd <repository_name>
 
 Adicione o arquivo CSV com as leituras de temperatura IoT ao diretório do projeto e atualize o file_path no script.
 
-Uso
+### Uso
 
 Execute o script do pipeline de dados para ingerir dados e criar views SQL:
 
@@ -66,7 +66,7 @@ avg_temp_por_dispositivo:
 
 Exibe a temperatura média por dispositivo IoT.
 
-Exemplo:
+### Exemplo:
 
 SELECT device_id, AVG(temperature) as avg_temp
 FROM temperature_readings
@@ -96,9 +96,6 @@ Gráfico de Linhas: Contagem de leituras por hora.
 
 Gráfico de Linhas: Temperaturas máxima e mínima por dia.
 
-Contribuição
-
-Faça um fork do repositório.
 
 Crie uma branch para sua funcionalidade.
 
