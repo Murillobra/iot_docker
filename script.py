@@ -1,19 +1,19 @@
-# Main Python script to handle the data pipeline for IoT temperature readings
-# Libraries needed
+# Script principal em Python para gerenciar o pipeline de dados de leituras de temperatura de IoT
+# Bibliotecas necessárias
 import pandas as pd
 from sqlalchemy import create_engine
 
-# Step 1: Read CSV data
-file_path = 'path_to_your_csv_file.csv'  # Replace with actual file path
+# Passo 1: Ler dados do CSV
+file_path = 'path_to_your_csv_file.csv'  # Substitua pelo caminho real do arquivo
 data = pd.read_csv(file_path)
 
-# Step 2: Connect to PostgreSQL using SQLAlchemy
-engine = create_engine('postgresql://username:password@localhost:5432/your_database')  # Replace with actual credentials
+# Passo 2: Conectar ao PostgreSQL usando SQLAlchemy
+engine = create_engine('postgresql://username:password@localhost:5432/your_database')  # Substitua pelas credenciais reais
 
-# Step 3: Process and load data into PostgreSQL
+# Passo 3: Processar e carregar dados no PostgreSQL
 data.to_sql('temperature_readings', engine, if_exists='replace', index=False)
 
-# Step 4: Create SQL views for analysis
+# Passo 4: Criar views SQL para análise
 with engine.connect() as conn:
     conn.execute('''
     CREATE OR REPLACE VIEW avg_temp_por_dispositivo AS
@@ -36,36 +36,36 @@ with engine.connect() as conn:
     GROUP BY data;
     ''')
 
-print("Data and views have been successfully created in PostgreSQL.")
+print("Dados e views criados com sucesso no PostgreSQL.")
 
-# Step 5: Dashboard Implementation with Streamlit
+# Passo 5: Implementação do dashboard com Streamlit
 import streamlit as st
 import plotly.express as px
 
-# Dashboard title
-st.title("IoT Temperature Readings Dashboard")
+# Título do dashboard
+st.title("Dashboard de Leituras de Temperatura IoT")
 
-# Function to fetch data from PostgreSQL views
+# Função para buscar dados das views no PostgreSQL
 def fetch_data(view_name):
     query = f"SELECT * FROM {view_name}"
     return pd.read_sql(query, engine)
 
-# Average Temperature by Device
-st.header("Average Temperature by Device")
+# Temperatura Média por Dispositivo
+st.header("Temperatura Média por Dispositivo")
 avg_temp_data = fetch_data('avg_temp_por_dispositivo')
-fig_avg_temp = px.bar(avg_temp_data, x='device_id', y='avg_temp', title="Average Temperature by Device")
+fig_avg_temp = px.bar(avg_temp_data, x='device_id', y='avg_temp', title="Temperatura Média por Dispositivo")
 st.plotly_chart(fig_avg_temp)
 
-# Readings by Hour
-st.header("Readings by Hour")
+# Leituras por Hora
+st.header("Leituras por Hora")
 hourly_data = fetch_data('leituras_por_hora')
-fig_hourly = px.line(hourly_data, x='hora', y='contagem', title="Readings Count by Hour")
+fig_hourly = px.line(hourly_data, x='hora', y='contagem', title="Contagem de Leituras por Hora")
 st.plotly_chart(fig_hourly)
 
-# Max and Min Temperatures by Day
-st.header("Max and Min Temperatures by Day")
+# Temperaturas Máximas e Mínimas por Dia
+st.header("Temperaturas Máximas e Mínimas por Dia")
 min_max_data = fetch_data('temp_max_min_por_dia')
-fig_min_max = px.line(min_max_data, x='data', y=['temp_max', 'temp_min'], title="Max and Min Temperatures by Day")
+fig_min_max = px.line(min_max_data, x='data', y=['temp_max', 'temp_min'], title="Temperaturas Máximas e Mínimas por Dia")
 st.plotly_chart(fig_min_max)
 
-print("Streamlit dashboard implemented successfully.")
+print("Dashboard Streamlit implementado com sucesso.")
